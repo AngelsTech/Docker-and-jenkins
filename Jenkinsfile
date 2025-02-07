@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/your-repo.git' // Replace with your actual repo
+                git 'https://github.com/Abdullahshahid984/Docker-and-jenkins.git' // Replace with your actual repo
             }
         }
 
