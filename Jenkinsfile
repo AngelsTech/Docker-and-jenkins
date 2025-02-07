@@ -3,15 +3,12 @@ pipeline {
 
     environment {
         IMAGE_NAME = "jenkins"
-        EMAIL_SENDER = "abdullahshahid984@gmail.com"
-        EMAIL_PASSWORD = "gagjzglsdfwvjvbd"
-        EMAIL_RECEIVER = "abdullahshahid984@gmail.com"
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Abdullahshahid984/Docker-and-jenkins.git' // Replace with your actual repo
+                git branch: 'main' , url: 'https://github.com/Abdullahshahid984/Docker-and-jenkins.git'
             }
         }
 
@@ -26,13 +23,15 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    sh """
-                        docker run --rm \
-                          -e EMAIL_SENDER=${EMAIL_SENDER} \
-                          -e EMAIL_PASSWORD=${EMAIL_PASSWORD} \
-                          -e EMAIL_RECEIVER=${EMAIL_RECEIVER} \
-                          ${IMAGE_NAME}
-                    """
+                    withCredentials([usernamePassword(credentialsId: 'email-credentials', usernameVariable: 'EMAIL_SENDER', passwordVariable: 'EMAIL_PASSWORD')]) {
+                        sh """
+                            docker run --rm \
+                              -e EMAIL_SENDER=${EMAIL_SENDER} \
+                              -e EMAIL_PASSWORD=${EMAIL_PASSWORD} \
+                              -e EMAIL_RECEIVER="abdullahshahid984@gmail.com" \
+                              ${IMAGE_NAME}
+                        """
+                    }
                 }
             }
         }
@@ -47,4 +46,3 @@ pipeline {
         }
     }
 }
-
