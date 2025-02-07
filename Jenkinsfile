@@ -26,8 +26,8 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'email-credentials', usernameVariable: 'EMAIL_SENDER', passwordVariable: 'EMAIL_PASSWORD')]) {
                         sh """
                             docker run --rm \
-                              -e EMAIL_SENDER=${EMAIL_SENDER} \
-                              -e EMAIL_PASSWORD=${EMAIL_PASSWORD} \
+                              -e EMAIL_SENDER="abdullahshahid984@gmail.com" \
+                              -e EMAIL_PASSWORD="gagj zgls dfwv jvbd" \
                               -e EMAIL_RECEIVER="abdullahshahid984@gmail.com" \
                               ${IMAGE_NAME}
                         """
