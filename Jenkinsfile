@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main' , url: 'https://github.com/Abdullahshahid984/Docker-and-jenkins.git'
+                git branch: 'main', url: 'https://github.com/Abdullahshahid984/Docker-and-jenkins.git'
             }
         }
 
@@ -26,9 +26,9 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'email-credentials', usernameVariable: 'EMAIL_SENDER', passwordVariable: 'EMAIL_PASSWORD')]) {
                         sh """
                             docker run --rm \
-                              -e EMAIL_SENDER="abdullahshahid984@gmail.com" \
-                              -e EMAIL_PASSWORD="gagj zgls dfwv jvbd" \
-                              -e EMAIL_RECEIVER="abdullahshahid984@gmail.com" \
+                              -e EMAIL_SENDER="${EMAIL_SENDER}" \
+                              -e EMAIL_PASSWORD="${EMAIL_PASSWORD}" \
+                              -e EMAIL_RECEIVER="${EMAIL_SENDER}" \
                               ${IMAGE_NAME}
                         """
                     }
