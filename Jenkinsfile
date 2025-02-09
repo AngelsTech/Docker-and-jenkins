@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/Abdullahshahid984/Docker-and-jenkins.git'
+                git branch: 'main', credentialsId: '66142c87-d271-41f4-82d1-cbbee8e844d0', url: 'https://github.com/AngelsTech/Docker-and-jenkins.git'
             }
         }
 
