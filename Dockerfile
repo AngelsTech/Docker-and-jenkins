@@ -1,17 +1,26 @@
-FROM python:3.9-slim
+# Use an official Python image
+FROM python:3.12-slim
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Install necessary dependencies
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+# Install required system dependencies
+RUN apt-get update && apt-get install -y libreoffice && rm -rf /var/lib/apt/lists/*
 
-# Copy the script and requirements
-COPY convert.py send_email.py network_cheatsheet.docx ./
+# Copy files
+COPY . /app/
 
-# Install required Python packages (excluding smtplib)
-RUN pip install --no-cache-dir python-docx reportlab
+# Create and activate a virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-# Convert DOCX to PDF and send email
-CMD python convert.py network_cheatsheet.docx network_cheatsheet.pdf && python send_email.py
+# Install dependencies inside the virtual environment
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Set environment variables
+ENV EMAIL_SENDER=""
+ENV EMAIL_PASSWORD=""
+ENV EMAIL_RECEIVER=""
+
+# Default command
+CMD ["sh", "-c", "if [ -f convert.py ]; then python convert.py; fi && if [ -f send_email.py ]; then python send_email.py; fi"]
